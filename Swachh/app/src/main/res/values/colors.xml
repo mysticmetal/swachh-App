@@ -11,4 +11,5 @@
     <color name="srkr_dark_red">#BD3C4B</color>
     <color name="black">#000000</color>
     <color name="yellow">#ede845</color>
+    <color name="light_gray">#cecdcd</color>
 </resources>

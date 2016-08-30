@@ -22,9 +22,6 @@ public class ReportIssue extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_issue);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Report an Issue");
-        setSupportActionBar(toolbar);
 
         mActivity=this;
 
@@ -38,12 +35,12 @@ public class ReportIssue extends AppCompatActivity {
         }
 
         mRequestQueue = Volley.newRequestQueue(this);
-
         session=SessionManager.getInstance(mActivity);
-        if ((session.get("id")=="")||(session.get("id")==null)){
-            startActivity(new Intent(mActivity,Main2Activity.class));
-            finish();
-        }
+
+
+
+
+
 
 
     }

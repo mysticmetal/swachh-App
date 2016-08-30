@@ -111,12 +111,13 @@ public class Main2Activity extends AppCompatActivity
 
         mRequestQueue = Volley.newRequestQueue(this);
 
+        register_btn=(Button)findViewById(R.id.register_btn);
         session=SessionManager.getInstance(mActivity);
         if ((session.get("id")=="")||(session.get("id")==null)){
             openSettings();
         }
         else{
-            register_btn=(Button)findViewById(R.id.register_btn);
+
             register_btn.setText("Edit your details");
         }
 
@@ -144,13 +145,17 @@ public class Main2Activity extends AppCompatActivity
 
 
     public void openChildMod(View view){
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-            startActivity(new Intent(this,ReportIssue.class),options.toBundle());
+
+        if (!((session.get("id")=="")||(session.get("id")==null))){
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+                startActivity(new Intent(this,ReportIssue.class),options.toBundle());
+            }
+            else{
+                startActivity(new Intent(this,ReportIssue.class));
+            }
         }
-        else{
-            startActivity(new Intent(this,ReportIssue.class));
-        }
+
 
     }
 
@@ -168,12 +173,15 @@ public class Main2Activity extends AppCompatActivity
 
 
     public void openChildMod(){
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-            startActivity(new Intent(this,ReportIssue.class),options.toBundle());
-        }
-        else{
-            startActivity(new Intent(this,ReportIssue.class));
+
+        if (!((session.get("id")=="")||(session.get("id")==null))) {
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+                startActivity(new Intent(this, ReportIssue.class), options.toBundle());
+            } else {
+                startActivity(new Intent(this, ReportIssue.class));
+            }
         }
 
     }
