@@ -37,7 +37,13 @@
             android:name=".Helpscreen"
             android:parentActivityName=".Main2Activity" />
         <activity android:name=".ReportIssue"
+            android:label="Report Issue"
             android:parentActivityName=".Main2Activity" />
+
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="My Issues"
+            android:parentActivityName=".Main2Activity"/>
     </application>
 
 </manifest>
