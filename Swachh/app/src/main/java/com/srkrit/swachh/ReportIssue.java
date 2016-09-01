@@ -149,9 +149,9 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
 
                 user=session.get("username");
 
-                Toast.makeText(ReportIssue.this, username+" "+title+" "+description+" "+user, Toast.LENGTH_SHORT).show();
 
                 if((username!="")&&(imageSelected==1)&&(title!="")&&(user!="")&&(description!="")){
+                    Toast.makeText(ReportIssue.this, username+" "+title+" "+description+" "+user, Toast.LENGTH_SHORT).show();
                     uploadImage();
                 }
 
@@ -184,8 +184,10 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
             latitude=mLastLocation.getLatitude();
             longitude=mLastLocation.getLongitude();
 
-            
-            Toast.makeText(mActivity, String.valueOf(mLastLocation.getLatitude())+"---"+String.valueOf(mLastLocation.getLongitude()), Toast.LENGTH_SHORT).show();
+            GetCurrentAddress currentadd=new GetCurrentAddress();
+            currentadd.execute();
+
+//            Toast.makeText(mActivity, String.valueOf(mLastLocation.getLatitude())+"---"+String.valueOf(mLastLocation.getLongitude()), Toast.LENGTH_SHORT).show();
         }
         else{
             latitude=0;
@@ -323,8 +325,6 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
                         //Disimissing the progress dialog
                         loading.dismiss();
 
-                        Toast.makeText(ReportIssue.this, "s:"+s, Toast.LENGTH_SHORT).show();
-
 
                         //Showing toast message of the response
                         upload_camera.setVisibility(View.VISIBLE);
@@ -364,7 +364,7 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
                 params.put("username", username);
                 params.put("user", user);
                 params.put("description", description);
-                params.put("issueaddress", "addr");
+                params.put("issueaddress", loc_address);
                 params.put("latitude", String.valueOf(latitude));
                 params.put("longitude", String.valueOf(longitude));
 
@@ -381,52 +381,60 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
     }
 
 
-    /* Request updates at startup */
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        locationManager.requestLocationUpdates(provider, 400, 1, this);
-    }
 
-    /* Remove the locationlistener updates when Activity is paused */
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        locationManager.removeUpdates(this);
+
+
+    public  String getAddress(Context ctx, double latitude, double longitude) {
+        StringBuilder result = new StringBuilder();
+        try {
+            Geocoder geocoder = new Geocoder(ctx, Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses.size() > 0) {
+                Address address = addresses.get(0);
+
+
+                String locality=address.getLocality();
+                String country=address.getCountryName();
+                String region_code=address.getCountryCode();
+                String zipcode=address.getPostalCode();
+                double lat =address.getLatitude();
+                double lon= address.getLongitude();
+
+                result.append(address.getAddressLine(0)+", "+locality+", ");
+                result.append(country+" "+ region_code+" ");
+                result.append(zipcode);
+
+                loc_address= String.valueOf(result);
+
+//                Log.e("addr", String.valueOf(result));
+
+            }
+        } catch (IOException e) {
+            Log.e("tag", e.getMessage());
+        }
+
+        return result.toString();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-//
-//    @Override
-//    public void onLocationChanged(Location location) {
-//        latitude = location.getLatitude();
-//        longitude =location.getLongitude();
-//
-//        Toast.makeText(mActivity, String.valueOf(latitude)+"___"+String.valueOf(longitude), Toast.LENGTH_SHORT).show();
-//
-//    }
-//
-//    @Override
-//    public void onStatusChanged(String provider, int status, Bundle extras) {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    @Override
-//    public void onProviderEnabled(String provider) {
-//        Toast.makeText(this, "Enabled new provider " + provider,
-//                Toast.LENGTH_SHORT).show();
-//
-//    }
-//
-//    @Override
-//    public void onProviderDisabled(String provider) {
-//        Toast.makeText(this, "Disabled provider " + provider,
-//                Toast.LENGTH_SHORT).show();
-//    }
 
+    private class GetCurrentAddress extends AsyncTask<String,String,String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            // this lat and log we can get from current location but here we given hard coded
+
+            return getAddress(mActivity, latitude, longitude);
+        }
+
+        @Override
+        protected void onPostExecute(String resultString) {
+
+//            Toast.makeText(mActivity, "addr:"+resultString, Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
