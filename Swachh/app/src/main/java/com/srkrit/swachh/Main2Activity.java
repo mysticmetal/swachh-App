@@ -113,7 +113,7 @@ public class Main2Activity extends AppCompatActivity
 
         register_btn=(Button)findViewById(R.id.register_btn);
         session=SessionManager.getInstance(mActivity);
-        if ((session.get("id")=="")||(session.get("id")==null)){
+        if ((session.get("username")=="")||(session.get("username")==null)){
             openSettings();
         }
         else{

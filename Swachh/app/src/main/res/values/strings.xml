@@ -7,5 +7,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="services_url">http://www.srkrit.in/swachh/</string>
+    <string name="base_url">http://www.srkrit.in/</string>
+    <string name="upload_url">files/swachhupload.php</string>
+    <string name="name_hint">Name</string>
+    <string name="username_hint">Unique Username</string>
+    <string name="desc_hint">Description</string>
 
 </resources>
