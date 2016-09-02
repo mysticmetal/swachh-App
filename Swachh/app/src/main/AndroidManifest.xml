@@ -33,12 +33,11 @@
         <activity
             android:name=".Aboutus"
             android:parentActivityName=".Main2Activity" />
-        <activity
-            android:name=".Helpscreen"
-            android:parentActivityName=".Main2Activity" />
+
         <activity
             android:name=".ReportIssue"
             android:label="Report Issue"
+            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".Main2Activity" />
         <activity
             android:name=".MyIssues"
@@ -59,8 +58,12 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ReportDetails"
-            android:parentActivityName=".MyReports"/>
+        <activity
+            android:name=".ReportDetails"
+            android:parentActivityName=".MyReports" />
+        <activity android:name=".Authorities"
+            android:label="All Authorities"
+            android:parentActivityName=".Main2Activity"/>
     </application>
 
 </manifest>

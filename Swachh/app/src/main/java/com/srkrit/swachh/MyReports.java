@@ -53,6 +53,13 @@ public class MyReports extends AppCompatActivity {
 
         mActivity=this;
 
+        session=SessionManager.getInstance(mActivity);
+
+        if ((session.get("username")=="")||(session.get("username")==null)){
+            startActivity(new Intent(mActivity,Main2Activity.class));
+            finish();
+        }
+
 
         Transition exitTrans = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -63,7 +70,7 @@ public class MyReports extends AppCompatActivity {
             getWindow().setReenterTransition(reenterTrans);
         }
 
-        session=SessionManager.getInstance(mActivity);
+
 
         listView = (ListView) findViewById(R.id.list);
         adapter = new CustomListAdapter(mActivity, movieList);

@@ -14,22 +14,21 @@ tools:context="com.srkrit.swachh.ReportIssue">
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <TextView
-        android:id="@+id/tv_report"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="Report new Issue"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_report"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="25sp"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textStyle="bold"-->
+        <!--android:text="Report new Issue"/>-->
 
     <FrameLayout
         android:id="@+id/upload_pic"
         android:layout_width="match_parent"
         android:background="@color/light_gray"
-        android:layout_below="@id/tv_report"
         android:onClick="selectImage"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:layout_height="250dp">
         <ImageView
             android:id="@+id/upload_camera"
@@ -79,6 +78,8 @@ tools:context="com.srkrit.swachh.ReportIssue">
     <Button
         android:id="@+id/submit_issue_btn"
         android:layout_marginTop="25dp"
+        android:textColor="@color/white"
+        android:background="@color/link_text_material_light"
         android:layout_below="@id/et_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

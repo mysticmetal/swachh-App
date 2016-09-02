@@ -36,29 +36,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyIssues extends AppCompatActivity {
-    private static final String url = "http://www.srkrit.in/swachh/myissues";
+public class Authorities extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    private static final String url = "http://www.srkrit.in/swachh/all_users";
     private ProgressDialog pDialog;
-    private List<Movie> movieList = new ArrayList<Movie>();
-    private ListView listView;
-    private CustomListAdapter adapter;
-    Map<String,String> params;
+    ListView lview;
+    ListViewAdapter lviewAdapter;
     Activity mActivity;
-    Session session;
+
+
+    List<String> month,number,usernames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_reports);
+        setContentView(R.layout.activity_authorities);
 
         mActivity=this;
-
-        session=SessionManager.getInstance(mActivity);
-
-        if ((session.get("username")=="")||(session.get("username")==null)){
-            startActivity(new Intent(mActivity,Main2Activity.class));
-            finish();
-        }
 
 
         Transition exitTrans = null;
@@ -70,23 +63,17 @@ public class MyIssues extends AppCompatActivity {
             getWindow().setReenterTransition(reenterTrans);
         }
 
-
-
-        listView = (ListView) findViewById(R.id.list);
-        adapter = new CustomListAdapter(mActivity, movieList);
-        listView.setAdapter(adapter);
+        lview = (ListView) findViewById(R.id.all_list);
 
         pDialog = new ProgressDialog(this);
 
         pDialog.setMessage("Loading...");
         pDialog.show();
 
+        month=new ArrayList<String>();
+        number=new ArrayList<String>();
+        usernames=new ArrayList<String>();
 
-
-
-
-        params=new HashMap<String, String>();
-        params.put("username",session.get("username"));
 
         StringRequest strRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
@@ -102,31 +89,13 @@ public class MyIssues extends AppCompatActivity {
                             // Parsing json
                             for (int i = 0; i < jsonarr.length(); i++) {
 
-
                                 JSONObject obj1=jsonarr.getJSONObject(i);
 
-                                JSONObject obj=obj1.getJSONObject("Swachhissue");
+                                JSONObject obj=obj1.getJSONObject("Swachhuser");
 
-                                Movie movie = new Movie();
-
-                                movie.setTitle(obj.getString("title"));
-
-                                movie.setThumbnailUrl(obj.getString("image"));
-
-                                movie.setRating(obj.getString("user"));
-
-                                movie.setYear(obj.getString("created"));
-                                movie.setStatus(obj.getString("status"));
-                                movie.setAddress(obj.getString("issueaddress"));
-                                movie.setLatitude(obj.getString("latitude"));
-                                movie.setLongitude(obj.getString("longitude"));
-
-                                String genre = obj.getString("description");
-                                movie.setGenre(genre);
-
-                                movieList.add(movie);
-
-
+                                month.add(obj.getString("name")+" #"+obj.getString("username"));
+                                usernames.add(obj.getString("username"));
+                                number.add(obj.getString("description"));
 
 
                             }
@@ -136,9 +105,8 @@ public class MyIssues extends AppCompatActivity {
 
                         // notifying list adapter about data changes
                         // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
+                        lviewAdapter.notifyDataSetChanged();
 
-                        params.clear();
 
                     }
                 },
@@ -147,45 +115,23 @@ public class MyIssues extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        params.clear();
                         hidePDialog();
                         Toast.makeText(mActivity, "No results. Please try again.", Toast.LENGTH_SHORT).show();
-//                        Log.e("res1: ", String.valueOf(error));
-//							Toast.makeText(getApplicationContext(), "ERROR "+error.toString(), Toast.LENGTH_SHORT).show();
+                        Log.e("res1: ", String.valueOf(error));
                     }
 
-                })
-        {
-            @Override
-            protected Map<String, String> getParams()
-            {
-                return params;
-            }
-        };
+                });
 
 
         AppController.getInstance().addToRequestQueue(strRequest);
 
+        lviewAdapter = new ListViewAdapter(this, month, number);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Movie thisItem=movieList.get(i);
+        lview.setAdapter(lviewAdapter);
+
+        lview.setOnItemClickListener(this);
 
 
-                Intent intent=new Intent(mActivity,IssueDetails.class);
-                intent.putExtra("title", thisItem.getTitle());
-                intent.putExtra("image", thisItem.getThumbnailUrl());
-                intent.putExtra("user", thisItem.getRating());
-                intent.putExtra("status", thisItem.getStatus());
-                intent.putExtra("address", thisItem.getAddress());
-                intent.putExtra("latitude", thisItem.getLatitude());
-                intent.putExtra("longitude", thisItem.getLongitude());
-                intent.putExtra("description", thisItem.getGenre());
-                intent.putExtra("created", thisItem.getYear());
-                startActivity(intent);;
-            }
-        });
 
 
     }
@@ -195,6 +141,15 @@ public class MyIssues extends AppCompatActivity {
         super.onDestroy();
         hidePDialog();
     }
+
+
+    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+
+        Intent reportIntent=new Intent(mActivity,ReportIssue.class);
+        reportIntent.putExtra("username",usernames.get(position));
+        startActivity(reportIntent);
+    }
+
 
     private void hidePDialog() {
         if (pDialog != null) {

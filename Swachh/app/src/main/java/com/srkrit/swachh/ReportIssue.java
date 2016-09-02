@@ -24,6 +24,7 @@ import android.transition.Transition;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -83,6 +84,14 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
 
         mActivity=this;
 
+
+        session=SessionManager.getInstance(mActivity);
+
+        if ((session.get("username")=="")||(session.get("username")==null)){
+            startActivity(new Intent(mActivity,Main2Activity.class));
+            finish();
+        }
+
         Transition exitTrans = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             exitTrans = new Explode();
@@ -103,8 +112,12 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
         submit_report_btn=(Button)findViewById(R.id.submit_issue_btn);
 
 
+        if ((mActivity.getIntent().getStringExtra("username")!="")&&(mActivity.getIntent().getStringExtra("username")!=null)){
+            et_username.setText(mActivity.getIntent().getStringExtra("username"));
+        }
+
+
         mRequestQueue = Volley.newRequestQueue(this);
-        session=SessionManager.getInstance(mActivity);
 
         if ((session.get("username")=="")||(session.get("username")==null)){
             onBackPressed();
@@ -119,23 +132,6 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
         }
 
 
-        // Get the location manager
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        // Define the criteria how to select the locatioin provider -> use
-//        // default
-//        Criteria criteria = new Criteria();
-//        provider = locationManager.getBestProvider(criteria, false);
-//        Location location = locationManager.getLastKnownLocation(provider);
-//
-//        locationManager.requestLocationUpdates(provider, 400, 1, this);
-//
-//        // Initialize the location fields
-//        if (location != null) {
-//            Toast.makeText(mActivity, "Provider " + provider + " has been selected.", Toast.LENGTH_SHORT).show();
-//            onLocationChanged(location);
-//        } else {
-//            Toast.makeText(mActivity, "Location not available", Toast.LENGTH_SHORT).show();
-//        }
 
 
 
@@ -151,7 +147,6 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
 
 
                 if((username!="")&&(imageSelected==1)&&(title!="")&&(user!="")&&(description!="")){
-                    Toast.makeText(ReportIssue.this, username+" "+title+" "+description+" "+user, Toast.LENGTH_SHORT).show();
                     uploadImage();
                 }
 
@@ -166,7 +161,8 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
     }
 
 
-    protected void onStart() {
+
+        protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
     }
@@ -175,6 +171,9 @@ public class ReportIssue extends AppCompatActivity implements GoogleApiClient.Co
         mGoogleApiClient.disconnect();
         super.onStop();
     }
+
+
+
 
     @Override
     public void onConnected(Bundle connectionHint) {

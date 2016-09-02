@@ -22,6 +22,12 @@
 
     <item android:title="Communicate">
         <menu>
+
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@drawable/ic_action_like"
+                android:title="All Authorities" />
+
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_share"
@@ -33,10 +39,7 @@
                 android:icon="@drawable/nav_info_icon"
                 android:title="About Us" />
 
-            <!--<item-->
-                <!--android:id="@+id/nav_help"-->
-                <!--android:icon="@drawable/nav_help_icon"-->
-                <!--android:title="Help" />-->
+
         </menu>
     </item>
 

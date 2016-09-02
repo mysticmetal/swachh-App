@@ -54,27 +54,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    protected static final String TAG = "MainActivity";
 
-    /**
-     * Provides the entry point to Google Play services.
-     */
-    protected GoogleApiClient mGoogleApiClient;
-
-    /**
-     * Represents a geographical location.
-     */
-    protected Location mLastLocation;
 
     Activity mActivity;
-    String servicesUrl="";
     RequestQueue mRequestQueue;
     Session session;
     Button register_btn;
-    double latitude,longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +79,6 @@ public class Main2Activity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        buildGoogleApiClient();
 
 
         mActivity=this;
@@ -132,7 +119,6 @@ public class Main2Activity extends AppCompatActivity
             openSettings();
         }
         else{
-
             register_btn.setText("Edit your details");
         }
 
@@ -141,15 +127,7 @@ public class Main2Activity extends AppCompatActivity
 
     }
 
-    private void showHelp() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-            startActivity(new Intent(this,Helpscreen.class),options.toBundle());
-        }
-        else{
-            startActivity(new Intent(this,Helpscreen.class));
-        }
-    }
+
 
 
     public boolean isInternetAvailable() {
@@ -159,7 +137,10 @@ public class Main2Activity extends AppCompatActivity
     }
 
 
+
     public void openChildMod(View view){
+
+
 
         if (!((session.get("id")=="")||(session.get("id")==null))){
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -170,18 +151,25 @@ public class Main2Activity extends AppCompatActivity
                 startActivity(new Intent(this,ReportIssue.class));
             }
         }
+        else{
+            Toast.makeText(Main2Activity.this, "Please register.", Toast.LENGTH_SHORT).show();
+        }
 
 
     }
 
     public void openGuardianMod(View view){
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-            startActivity(new Intent(this,MyReports.class),options.toBundle());
+        if (!((session.get("id")=="")||(session.get("id")==null))) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+                startActivity(new Intent(this, MyReports.class), options.toBundle());
+            } else {
+                startActivity(new Intent(this, MyReports.class));
+            }
         }
         else{
-            startActivity(new Intent(this,MyReports.class));
+            Toast.makeText(Main2Activity.this, "Please register.", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -198,33 +186,45 @@ public class Main2Activity extends AppCompatActivity
                 startActivity(new Intent(this, ReportIssue.class));
             }
         }
+        else{
+            Toast.makeText(Main2Activity.this, "Please register.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
     public void openGuardianMod(){
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-        startActivity(new Intent(this,MyReports.class),options.toBundle());
+        if (!((session.get("id")=="")||(session.get("id")==null))) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+                startActivity(new Intent(this, MyReports.class), options.toBundle());
+            } else {
+                startActivity(new Intent(this, MyReports.class));
+            }
+        }
+        else{
+            Toast.makeText(Main2Activity.this, "Please register.", Toast.LENGTH_SHORT).show();
+        }
+
     }
-    else{
-        startActivity(new Intent(this,MyReports.class));
-    }
+
+    public void openMyIssues(){
+
+        if (!((session.get("id")=="")||(session.get("id")==null))) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+                startActivity(new Intent(this, MyIssues.class), options.toBundle());
+            } else {
+                startActivity(new Intent(this, MyIssues.class));
+            }
+        }
+        else{
+            Toast.makeText(Main2Activity.this, "Please register.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
 
-
-    /**
-     * Builds a GoogleApiClient. Uses the addApi() method to request the LocationServices API.
-     */
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
 
 
 
@@ -260,85 +260,15 @@ public class Main2Activity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }
 
-    /**
-     * Runs when a GoogleApiClient object successfully connects.
-     */
-    @Override
-    public void onConnected(Bundle connectionHint) {
-
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-
-//			Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-//			try {
-            latitude=mLastLocation.getLatitude();
-            longitude=mLastLocation.getLongitude();
-
-
-            getThisAddress();
-
-//				Toast.makeText(this,mLastLocation.getLatitude()+","+mLastLocation.getLongitude(), Toast.LENGTH_LONG).show();
-
-
-//				List<Address> addresses = geocoder.getFromLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude(), 1);
-//				address = addresses.get(0);
-//				Toast.makeText(this, "address: "+address, Toast.LENGTH_LONG).show();
-
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-
-
-
-        } else {
-//			Toast.makeText(this, "location_detected", Toast.LENGTH_LONG).show();
-        }
     }
 
 
-
-
-    @Override
-    public void onConnectionSuspended(int cause) {
-        // The connection to Google Play services was lost for some reason. We call connect() to
-        // attempt to re-establish the connection.
-//		Log.e(TAG, "Connection suspended");
-        mGoogleApiClient.connect();
-    }
-
-    private void getThisAddress(){
-//        RGeocoder locationAddress = new RGeocoder();
-//        locationAddress.getAddressFromLocation(latitude, longitude,
-//                getApplicationContext(), new GeocoderHandler());
-    }
-
-    private class GeocoderHandler extends Handler {
-        @Override
-        public void handleMessage(Message message) {
-            String locationAddress;
-            switch (message.what) {
-                case 1:
-                    Bundle bundle = message.getData();
-                    locationAddress = bundle.getString("address");
-                    break;
-                default:
-                    locationAddress = null;
-            }
-            session.set("address",locationAddress);
-//			Toast.makeText(mActivity, "Address:"+locationAddress, Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
     public void openSettings() {
@@ -576,10 +506,6 @@ public class Main2Activity extends AppCompatActivity
     }
 
 
-    @Override
-    public void onConnectionFailed(@NonNull com.google.android.gms.common.ConnectionResult connectionResult) {
-
-    }
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -593,7 +519,7 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_guardian) {
             openGuardianMod();
         } else if (id == R.id.nav_open_map) {
-            startActivity(new Intent(this,MyIssues.class));
+            openMyIssues();
         } else if (id == R.id.nav_register) {
             openSettings();
         } else if (id == R.id.nav_about_us) {
@@ -607,17 +533,17 @@ public class Main2Activity extends AppCompatActivity
             }
 
         }
-//        else if (id == R.id.nav_help) {
-//
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-//                startActivity(new Intent(this,Helpscreen.class),options.toBundle());
-//            }
-//            else{
-//                startActivity(new Intent(this,Helpscreen.class));
-//            }
-//
-//        }
+        else if (id == R.id.nav_help) {
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+                startActivity(new Intent(this,Authorities.class),options.toBundle());
+            }
+            else{
+                startActivity(new Intent(this,Authorities.class));
+            }
+
+        }
         else if (id == R.id.nav_share) {
 
             Intent i=new Intent(Intent.ACTION_SEND);
