@@ -34,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -90,10 +91,6 @@ public class Main2Activity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
         buildGoogleApiClient();
 
 
@@ -109,10 +106,28 @@ public class Main2Activity extends AppCompatActivity
             getWindow().setReenterTransition(reenterTrans);
         }
 
+        session=SessionManager.getInstance(mActivity);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_main2);
+        TextView headerName=(TextView)headerView.findViewById(R.id.nav_name);
+        TextView headerUsername=(TextView)headerView.findViewById(R.id.nav_username);
+
+        if ((session.get("username")!="")&&((session.get("username")!=null))){
+            headerName.setText("Name: "+session.get("name"));
+            headerUsername.setText("UserName: "+session.get("username"));
+        }
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
         mRequestQueue = Volley.newRequestQueue(this);
 
         register_btn=(Button)findViewById(R.id.register_btn);
-        session=SessionManager.getInstance(mActivity);
+
         if ((session.get("username")=="")||(session.get("username")==null)){
             openSettings();
         }
@@ -188,13 +203,13 @@ public class Main2Activity extends AppCompatActivity
 
     public void openGuardianMod(){
 
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-//            startActivity(new Intent(this,GuardianActivity.class),options.toBundle());
-//        }
-//        else{
-//            startActivity(new Intent(this,GuardianActivity.class));
-//        }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+        startActivity(new Intent(this,MyReports.class),options.toBundle());
+    }
+    else{
+        startActivity(new Intent(this,MyReports.class));
+    }
 
     }
 
@@ -578,7 +593,7 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_guardian) {
             openGuardianMod();
         } else if (id == R.id.nav_open_map) {
-//            startActivity(new Intent(this,DisplayMap.class));
+            startActivity(new Intent(this,MyIssues.class));
         } else if (id == R.id.nav_register) {
             openSettings();
         } else if (id == R.id.nav_about_us) {
@@ -591,23 +606,24 @@ public class Main2Activity extends AppCompatActivity
                 startActivity(new Intent(this,Aboutus.class));
             }
 
-        }else if (id == R.id.nav_help) {
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-                startActivity(new Intent(this,Helpscreen.class),options.toBundle());
-            }
-            else{
-                startActivity(new Intent(this,Helpscreen.class));
-            }
-
         }
+//        else if (id == R.id.nav_help) {
+//
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+//                startActivity(new Intent(this,Helpscreen.class),options.toBundle());
+//            }
+//            else{
+//                startActivity(new Intent(this,Helpscreen.class));
+//            }
+//
+//        }
         else if (id == R.id.nav_share) {
 
             Intent i=new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_SUBJECT,"Install Trace Her App");
-            i.putExtra(Intent.EXTRA_TEXT, "Download Trace Her: https://play.google.com/store/apps/details?id=com.srkrit.swachh");
+            i.putExtra(Intent.EXTRA_SUBJECT,"Install Swachh App");
+            i.putExtra(Intent.EXTRA_TEXT, "Download Swachh App: https://play.google.com/store/apps/details?id=com.srkrit.swachh");
             startActivity(Intent.createChooser(i,"Share via"));
 
 

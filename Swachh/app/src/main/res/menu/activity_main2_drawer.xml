@@ -4,16 +4,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_child"
-            android:icon="@drawable/child_icon"
-            android:title="Child Module" />
+            android:icon="@drawable/ic_error"
+            android:title="Report Issue" />
         <item
             android:id="@+id/nav_guardian"
-            android:icon="@drawable/guardian_icon"
-            android:title="Guardian Module" />
+            android:icon="@drawable/ic_action_warning"
+            android:title="Issues reported to you" />
         <item
             android:id="@+id/nav_open_map"
-            android:icon="@drawable/map_icon"
-            android:title="Map" />
+            android:icon="@drawable/ic_action_info"
+            android:title="Issues reported by you" />
         <item
             android:id="@+id/nav_register"
             android:icon="@drawable/register_icon"
@@ -33,10 +33,10 @@
                 android:icon="@drawable/nav_info_icon"
                 android:title="About Us" />
 
-            <item
-                android:id="@+id/nav_help"
-                android:icon="@drawable/nav_help_icon"
-                android:title="Help" />
+            <!--<item-->
+                <!--android:id="@+id/nav_help"-->
+                <!--android:icon="@drawable/nav_help_icon"-->
+                <!--android:title="Help" />-->
         </menu>
     </item>
 

@@ -19,14 +19,15 @@
         android:src="@drawable/srkr_logo"/>
 
     <TextView
+        android:id="@+id/nav_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Trace Her - SRKR IT"
+        android:text="Swachh App - SRKR IT"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nav_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Developer: Prabhu Vinod" />
