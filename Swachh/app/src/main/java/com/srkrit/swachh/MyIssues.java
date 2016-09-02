@@ -165,7 +165,6 @@ public class MyIssues extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Movie thisItem=movieList.get(i);
 
-                Toast.makeText(mActivity, "title:"+thisItem.getTitle(), Toast.LENGTH_SHORT).show();
 
                 Intent intent=new Intent(mActivity,IssueDetails.class);
                 intent.putExtra("title", thisItem.getTitle());

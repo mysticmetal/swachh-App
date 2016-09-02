@@ -108,6 +108,11 @@ public class MyReports extends AppCompatActivity {
 
                             movie.setYear(obj.getString("created"));
 
+                            movie.setStatus(obj.getString("status"));
+                            movie.setAddress(obj.getString("issueaddress"));
+                            movie.setLatitude(obj.getString("latitude"));
+                            movie.setLongitude(obj.getString("longitude"));
+
                                 String genre = obj.getString("description");
                                 movie.setGenre(genre);
 
@@ -178,6 +183,7 @@ public class MyReports extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public void onDestroy() {
