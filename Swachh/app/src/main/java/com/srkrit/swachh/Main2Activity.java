@@ -163,10 +163,10 @@ public class Main2Activity extends AppCompatActivity
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-            startActivity(new Intent(this,ScrollingActivity.class),options.toBundle());
+            startActivity(new Intent(this,MyReports.class),options.toBundle());
         }
         else{
-            startActivity(new Intent(this,ScrollingActivity.class));
+            startActivity(new Intent(this,MyReports.class));
         }
 
     }

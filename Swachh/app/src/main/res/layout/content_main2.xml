@@ -110,7 +110,7 @@
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:layout_height="70dp"
-                android:text="My Issues"/>
+                android:text="My Reports"/>
 
 
         </LinearLayout>
