@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:gravity="center"
+    android:background="@drawable/dashbg"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:text="Swachh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="34sp"
+        android:textColor="@color/dark_gray"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:layout_margin="16dp"
+        android:id="@+id/textView7" />
+
+    <TextView
+        android:text="Simply report and clear your \nproblems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:textSize="18dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:layout_margin="10dp"
+        android:id="@+id/textView8" />
+
+    <ImageView
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:src="@drawable/apmap"/>
+
+    <Button
+        android:text="Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:onClick="openReg"
+        android:textColor="@color/white"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:background="@color/btn_green"
+        android:id="@+id/button3" />
+
+</LinearLayout>

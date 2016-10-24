@@ -62,7 +62,6 @@ public class Main2Activity extends AppCompatActivity
     Activity mActivity;
     RequestQueue mRequestQueue;
     Session session;
-    Button register_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,14 +112,11 @@ public class Main2Activity extends AppCompatActivity
 
         mRequestQueue = Volley.newRequestQueue(this);
 
-        register_btn=(Button)findViewById(R.id.register_btn);
 
         if ((session.get("username")=="")||(session.get("username")==null)){
             openSettings();
         }
-        else{
-            register_btn.setText("Edit your details");
-        }
+
 
 
 
@@ -209,6 +205,22 @@ public class Main2Activity extends AppCompatActivity
     }
 
     public void openMyIssues(){
+
+        if (!((session.get("id")=="")||(session.get("id")==null))) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+                startActivity(new Intent(this, MyIssues.class), options.toBundle());
+            } else {
+                startActivity(new Intent(this, MyIssues.class));
+            }
+        }
+        else{
+            Toast.makeText(Main2Activity.this, "Please register.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void openMyIssues(View view){
 
         if (!((session.get("id")=="")||(session.get("id")==null))) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -436,7 +448,6 @@ public class Main2Activity extends AppCompatActivity
                                 session.set("name", params.get("name"));
                                 session.set("description", params.get("description"));
 
-                                register_btn.setText("Edit your details");
 
 
 

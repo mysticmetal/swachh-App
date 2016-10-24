@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#5c6bc0</color>
+    <color name="colorPrimaryDark">#3f51b5</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="red">#ff0000</color>
@@ -10,6 +10,7 @@
     <color name="srkr_dark_brown">#D6851C</color>BD3C4B
     <color name="srkr_dark_red">#BD3C4B</color>
     <color name="black">#000000</color>
+    <color name="dark_gray">#4d4d4d</color>
     <color name="yellow">#ede845</color>
     <color name="light_gray">#cecdcd</color>
 
@@ -20,4 +21,6 @@
     <color name="list_row_end_color">#ffffff</color>
     <color name="list_row_hover_start_color">#ebeef0</color>
     <color name="list_row_hover_end_color">#ebeef0</color>
+    <color name="btn_green">#00c853</color>
+    <color name="btn_blue">#80deea</color>
 </resources>
